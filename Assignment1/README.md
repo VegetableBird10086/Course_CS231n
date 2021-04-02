@@ -95,10 +95,27 @@ dists = np.sqrt(np.sum((X - self.X_train) ** 2), axis = 2)
 d1 = np.sum(X ** 2, axis = 1)
 d2 = np.sum(self.X_train ** 2, axis = 1)
 d = d1.reshape(-1, 1) + d2.reshape(1, -1)
-dists = np.sqrt(d - 2 * np.dot(X, self.X_train.T))np.sum()
+dists = np.sqrt(d - 2 * np.dot(X, self.X_train.T))
 ```
 
-思路：这个方案的主要思路就是利用了$(a-b)^2=a^2+b^2-2ab$。回到这个问题上，$dist_{ij}=\Sigma_{k=0}^{D-1} (X_{ik}^2+X\_train_{jk}^2)-2\Sigma_{k=0}^{D-1}X_{ik}X\_train_{jk}$。所以，这就需要
+思路：这个方案的主要思路就是利用了$(a-b)^2=a^2+b^2-2ab$。回到这个问题上：
+$$
+dist_{ij}=\Sigma_{k=0}^{D-1} (X_{ik}^2+X\_train_{jk}^2)-2\Sigma_{k=0}^{D-1}X_{ik}X\_train_{jk}
+$$
+将这个式子分为两个部分，第一部分：
+$$
+\Sigma_{k=0}^{D-1} (X_{ik}^2+X\_train_{jk}^2)
+$$
+显然，我们可以把X平方后按列求和获得d1，把X_train按平方后按列求和获得d2，将d1变为列向量，d2变为行向量，二式相加通过广播就是上面这一部分。
+
+第二部分：
+$$
+2\Sigma_{k=0}^{D-1}X_{ik}X\_train_{jk}
+$$
+这个实际上就是X的行元素与X_train的列元素相乘求和，这就是$X@X\_train^T$，$@$表示矩阵乘法。
+所以，通过这些运算就可以在不使用循环的情况下求出dists。
+
+
 
 
 
