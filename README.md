@@ -6,3 +6,5 @@
 
 - [作业链接](https://cs231n.github.io/assignments/2020/assignment1_jupyter.zip)
 - [讲义链接](https://cs231n.github.io/)
+
+我个人觉得这个作业并不是很容易，但是做完后一定会让你对这些算法有更加深刻的理解。万事开头难，与诸君共勉。
